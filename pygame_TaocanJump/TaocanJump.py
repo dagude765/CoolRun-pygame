@@ -46,7 +46,7 @@ class MyMap(pygame.sprite.Sprite):
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        self.bg = pygame.image.load("background.png").convert_alpha()
+        self.bg = pygame.image.load("pic/background.png").convert_alpha()
     def map_rolling(self):
         if self.x < -300:
             self.x = 300
@@ -119,10 +119,10 @@ def showWelcome(gameStart):
 def audio_init():
     global btn_au,bg_au,bullent_au,bossstart_au,getscore_au,tree_au,friends_au
     pygame.mixer.init()
-    btn_au = pygame.mixer.Sound("button.wav")
-    bg_au = pygame.mixer.Sound("background.ogg")
-    bullent_au = pygame.mixer.Sound("bullet.wav")
-    #bossstart_au = pygame.mixer.Sound("bossstart.wav")
+    btn_au = pygame.mixer.Sound("sound/button.wav")
+    bg_au = pygame.mixer.Sound("sound/background.ogg")
+    bullent_au = pygame.mixer.Sound("sound/bullet.wav")
+    bossstart_au = pygame.mixer.Sound("sound/bossstart.wav")
     #getscore_au = pygame.mixer.Sound("91.wav")
     #tree_au = pygame.mixer.Sound("tree.wav")
     #friends_au = pygame.mixer.Sound("friends.wav")
@@ -147,13 +147,13 @@ font = pygame.font.Font(None, 22)
 font1 = pygame.font.Font(None, 40)
 font2 = pygame.font.SysFont('kaiti', 20)
 framerate = pygame.time.Clock()
-upImageFilename = 'game_start_up.png'
-downImageFilename = 'game_start_down.png'
+upImageFilename = 'pic/game_start_up.png'
+downImageFilename = 'pic/game_start_down.png'
 #创建按钮对象
 startbutton = Button(upImageFilename,downImageFilename, (400,500))
-restartbutton = Button('game_restart_up.png','game_restart_down.png', (400,400))
-quitbutton = Button('game_quit_up.png','game_quit_down.png', (400,500))
-interface = pygame.image.load("myinterface.png")
+restartbutton = Button('pic/game_restart_up.png','pic/game_restart_down.png', (400,400))
+quitbutton = Button('pic/game_quit_up.png','pic/game_quit_down.png', (400,500))
+interface = pygame.image.load("pic/myinterface.png")
 
 #创建地图对象
 bg1 = MyMap(0,0)
@@ -172,44 +172,43 @@ group_teacher = pygame.sprite.Group()
 
 #创建玩家精灵
 player = MySprite()
-player.load("sprite.png", 100, 100, 4)#选取第一个图
+player.load("pic/sprite.png", 100, 100, 4)#选取第一个图
 player.position = 300, (ground_y-100)
 group.add(player)
 
 #创建friends精灵
 friends = MySprite()
-friends.load("chang2.png", 55, 75, 1)
+friends.load("pic/chang2.png", 55, 75, 1)
 friends.position = -50, ground_y-75
 group_friends.add(friends)
 
 #创建love精灵
 love = MySprite()
-love.load("love.png",53,120,4)
+love.load("pic/love.png",53,120,4)
 love.position = -50, ground_y
 group_love.add(love)
 
 #创建lagrange精灵
 lagrange = MySprite()
-lagrange.load("crown.png",80,58,1)
+lagrange.load("pic/crown.png",80,58,1)
 lagrange.position = -50, random.randint(65,200)
 group_lagrange.add(lagrange)
 
 #创建子弹精灵
 tree = MySprite()
-#tree.load("chang.png", 40, 16, 1)
-tree.load("tree.png", 75, 80, 1)
+tree.load("pic/tree.png", 75, 80, 1)
 tree.position = 800, (ground_y-80)
 group.add(tree)
 
 #创建知识精灵
 knowledge = MySprite()
-knowledge.load("fruit.bmp", 75, 20, 1)
+knowledge.load("pic/fruit.bmp", 75, 20, 1)
 knowledge.position = -50, (ground_y-80)
 group_knowledge.add(knowledge)
 
 #创建老师精灵
 teacher = MySprite()
-teacher.load("teacher.png", 131, 150, 1)
+teacher.load("pic/teacher.png", 131, 150, 1)
 teacher.position = 800-teacher.frame_width, (ground_y-teacher.frame_height)
 group_teacher.add(teacher)
 
@@ -232,7 +231,7 @@ global bg_sound,btn_sound,bullent_sound,bossstart_sound,getscore_sound,tree_soun
 bg_sound=Music(bg_au)
 btn_sound=Music(btn_au)
 bullent_sound =Music(bullent_au)
-#bossstart_sound = Music(bossstart_au)
+bossstart_sound = Music(bossstart_au)
 #getscore_sound = Music(getscore_au)
 #tree_sound = Music(tree_au)
 #friends_sound = Music(friends_au)
@@ -293,7 +292,7 @@ while True:
     if game_boss and not boss_start:
         current_time =time.clock()-start_time
         if bossmusic_switch:
-            #bossstart_sound.play_sound()
+            bossstart_sound.play_sound()
             bossmusic_switch = False
             #print("hahaha")
         if current_time > 5:
@@ -363,7 +362,7 @@ while True:
             print(river_random)
         if current_time > river_random:#1/100的可能性
             element = MySprite()
-            element.load("paper.png", 80, 60, 1)
+            element.load("pic/paper.png", 80, 60, 1)
             element.position = 800-teacher.frame_width, (ground_y-80)
             group_river.add(element)
             start_time = time.clock()
@@ -413,12 +412,12 @@ while True:
             if pygame.sprite.collide_rect(e, player) and not e.crash and not e.perfect and not player.invincible and not player.knowledge_learned:
                 e.crash = True
                 #tree_sound.play_sound()
-                e.image = pygame.image.load("0.png").convert_alpha()
+                e.image = pygame.image.load("pic/0.png").convert_alpha()
                 turnover_time -= 1
             elif pygame.sprite.collide_rect(e, player) and not e.perfect and (player.invincible or player.knowledge_learned):
                 e.perfect = True
                 #getscore_sound.play_sound()
-                e.image = pygame.image.load("91.png").convert_alpha()
+                e.image = pygame.image.load("pic/91.png").convert_alpha()
                 player.knowledge_learned = False
                 player.get_knowledge = False
                 get_knowledge_frame = 180
@@ -525,7 +524,7 @@ while True:
         flower_random = random.randint(1,250)
         if flower_random < 2:#1/150的可能性
             element = MySprite()
-            element.load("flower.png", 50, 48, 1)
+            element.load("pic/flower.png", 50, 48, 1)
             #tmp_x +=random.randint(50,120)
             element.X = 800
             element.Y = random.randint(65,200)#跳跃极限高度是270-186=84，砖块最高下层是65+20=85，刚好吃到
@@ -535,7 +534,7 @@ while True:
         river_random = random.randint(1,100)
         if river_random < 2:#1/100的可能性
             element = MySprite()
-            element.load("river.png", 150, 93, 1)#大小得调一下
+            element.load("pic/river.png", 150, 93, 1)#大小得调一下
             element.X = 800 + river_x 
             tmp = abs(element.X-tree.X)
             tmp2 = abs(element.X-friends.X)
